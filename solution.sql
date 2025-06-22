@@ -30,15 +30,11 @@ CREATE TABLE car_shop.car_models (
 CREATE TABLE car_shop.cars (
     car_id INTEGER PRIMARY KEY, -- ID из исходных данных (не SERIAL)
     model_id INTEGER NOT NULL REFERENCES car_shop.car_models(model_id), -- Внешний ключ на car_models
+    color_id INTEGER REFERENCES car_shop.colors(color_id),
     price NUMERIC(12,2) NOT NULL CHECK (price > 0), -- Цена (2 знака после запятой)
     sale_date DATE NOT NULL, -- Дата продажи
     discount NUMERIC(5,2) NOT NULL DEFAULT 0 CHECK (discount >= 0 AND discount <= 100), -- Скидка (0-100%)
     customer_id INTEGER NOT NULL REFERENCES car_shop.customers(customer_id) -- Внешний ключ на customers
-);
-CREATE TABLE car_shop.car_colors (
-    car_id INTEGER NOT NULL REFERENCES car_shop.cars(car_id), -- Внешний ключ на cars
-    color_id INTEGER NOT NULL REFERENCES car_shop.colors(color_id),-- Внешний ключ на colors
-    PRIMARY KEY (car_id, color_id)-- Составной первичный ключ
 );
 -- Шаг 6,7
 INSERT INTO car_shop.colors (color_name)
